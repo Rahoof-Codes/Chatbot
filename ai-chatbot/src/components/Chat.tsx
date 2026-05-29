@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { User } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 
 interface Props {
   user: User;
@@ -173,6 +174,32 @@ export default function Chat({ user }: Props) {
           background: #22c55e;
           box-shadow: 0 0 6px rgba(34,197,94,0.7);
           flex-shrink: 0;
+        }
+
+        /* ── Sign-out button ── */
+        .signout-btn {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          padding: 5px 11px;
+          border-radius: 8px;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.04);
+          color: rgba(255,255,255,0.45);
+          font-family: 'Sora', sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: background 0.2s, border-color 0.2s, color 0.2s;
+          white-space: nowrap;
+        }
+        .signout-btn:hover {
+          background: rgba(239,68,68,0.12);
+          border-color: rgba(239,68,68,0.35);
+          color: rgba(239,68,68,0.85);
+        }
+        .signout-btn:active {
+          transform: scale(0.96);
         }
 
         /* ── Messages area ── */
@@ -413,9 +440,23 @@ export default function Chat({ user }: Props) {
               <div className="chat-header-sub">{user.email}</div>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div className="status-dot" />
-            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", fontFamily: "'JetBrains Mono', monospace" }}>online</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div className="status-dot" />
+              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", fontFamily: "'JetBrains Mono', monospace" }}>online</span>
+            </div>
+            <button
+              className="signout-btn"
+              onClick={() => signOut(getAuth())}
+            >
+              {/* Power icon */}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+              Sign out
+            </button>
           </div>
         </header>
 
